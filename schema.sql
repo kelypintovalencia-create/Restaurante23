@@ -27,6 +27,35 @@ CREATE TABLE Repartidor (
     disponible BOOLEAN DEFAULT TRUE
 );
 
+DROP TABLE IF EXISTS Pedido;
+DROP TABLE IF EXISTS Usuario;
+DROP TABLE IF EXISTS Restaurante;
+DROP TABLE IF EXISTS Repartidor;
+DROP TABLE IF EXISTS Plato;
+DROP TABLE IF EXISTS Detalle_Pedido;
+PRAGMA foreign_keys = ON;
+
+CREATE TABLE Usuario (
+    id_usuario INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    correo VARCHAR(150) UNIQUE NOT NULL,
+    telefono VARCHAR(20)
+);
+
+CREATE TABLE Restaurante (
+    id_restaurante INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    direccion VARCHAR(200) NOT NULL,
+    telefono VARCHAR(20)
+);
+
+CREATE TABLE Repartidor (
+    id_repartidor INT AUTO_INCREMENT PRIMARY KEY,
+    nombre VARCHAR(100) NOT NULL,
+    telefono VARCHAR(20),
+    disponible BOOLEAN DEFAULT TRUE
+);
+
 CREATE TABLE Plato (
     id_plato INT AUTO_INCREMENT PRIMARY KEY,
     id_restaurante INT NOT NULL,
@@ -51,13 +80,13 @@ CREATE TABLE Pedido (
     FOREIGN KEY (id_repartidor) REFERENCES Repartidor(id_repartidor)
 );
 
-CREATE TABLE Detalle_Pedido(
+CREATE TABLE Detalle_Pedido (
     id_detalle INT AUTO_INCREMENT PRIMARY KEY,
     id_pedido INT NOT NULL,
     id_plato INT NOT NULL,
     cantidad INT NOT NULL DEFAULT 1,
     precio_unitario DECIMAL(10,2) NOT NULL,
-    modificaciones JSON,
+    modificaciones_JSON TEXT,
     FOREIGN KEY (id_pedido) REFERENCES Pedido(id_pedido),
     FOREIGN KEY (id_plato) REFERENCES Plato(id_plato)
 );
